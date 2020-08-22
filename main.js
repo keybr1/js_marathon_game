@@ -53,6 +53,7 @@ function changeHP(count, person) {
     person.damageHP = 0;
     alert("Stupid " + person.name + " game over");
     $btn.disabled = true;
+    $lowBtn.disabled = true;
   } else {
     person.damageHP -= count;
   }
