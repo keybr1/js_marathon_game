@@ -1,12 +1,16 @@
-const $btn = document.getElementById("btn-kick");
-const $lowBtn = document.getElementById("btn-low-kick");
+function $getElById(id) {
+  return document.getElementById(id);
+}
+
+const $btn = $getElById("btn-kick");
+const $lowBtn = $getElById("btn-low-kick");
 
 const character = {
   name: "Pikachu",
   defaultHP: 100,
   damageHP: 100,
-  elHP: document.getElementById("health-character"),
-  elProgressbar: document.getElementById("progressbar-character"),
+  elHP: $getElById("health-character"),
+  elProgressbar: $getElById("progressbar-character"),
   renderHP: renderHP,
   changeHP: changeHP,
   renderHPLife: renderHPLife,
@@ -17,8 +21,8 @@ const enemy = {
   name: "Charmander",
   defaultHP: 100,
   damageHP: 100,
-  elHP: document.getElementById("health-enemy"),
-  elProgressbar: document.getElementById("progressbar-enemy"),
+  elHP: $getElById("health-enemy"),
+  elProgressbar: $getElById("progressbar-enemy"),
   renderHP: renderHP,
   changeHP: changeHP,
   renderHPLife: renderHPLife,
@@ -58,13 +62,17 @@ function renderProgressbarHP() {
 }
 
 function changeHP(count) {
-  if (this.damageHP < count) {
+  this.damageHP -= count;
+
+  const log =
+    this === enemy ? generateLog(this, character) : generateLog(this, enemy);
+  console.log(log);
+
+  if (this.damageHP <= 0) {
     this.damageHP = 0;
     alert("Stupid " + this.name + " game over");
     $btn.disabled = true;
     $lowBtn.disabled = true;
-  } else {
-    this.damageHP -= count;
   }
 
   this.renderHP();
@@ -72,6 +80,35 @@ function changeHP(count) {
 
 function random(num) {
   return Math.ceil(Math.random() * num);
+}
+
+function params() {
+  const { defaultHP, damageHP } = character;
+  return `${damageHP}/${defaultHP}`;
+}
+
+function generateLog(count) {
+  const { name } = character;
+  const { name: eName } = enemy;
+
+  const $p = document.createElement("p");
+  $p.innerText = [
+    `${name} вспомнил что-то важное, но неожиданно ${eName}, не помня себя от испуга, ударил в предплечье врага. -${count}, ${params()}`,
+    `${name} поперхнулся, и за это ${eName} с испугу приложил прямой удар коленом в лоб врага. -${count}, ${params()}`,
+    `${name} забылся, но в это время наглый ${eName}, приняв волевое решение, неслышно подойдя сзади, ударил. -${count}, ${params()}`,
+    `${name} пришел в себя, но неожиданно ${eName} случайно нанес мощнейший удар.`,
+    `${name} поперхнулся, но в это время ${eName} нехотя раздробил кулаком <вырезанно цензурой> противника. -${count}, ${params()}`,
+    `${name} удивился, а ${eName} пошатнувшись влепил подлый удар. -${count}, ${params()}`,
+    `${name} высморкался, но неожиданно ${eName} провел дробящий удар. -${count}, ${params()}`,
+    `${name} пошатнулся, и внезапно наглый ${eName} беспричинно ударил в ногу противника -${count}, ${params()}`,
+    `${name} расстроился, как вдруг, неожиданно ${eName} случайно влепил стопой в живот соперника. -${count}, ${params()}`,
+    `${name} пытался что-то сказать, но вдруг, неожиданно ${eName} со скуки, разбил бровь сопернику. -${count}, ${params()}`,
+  ];
+
+  const $logs = document.querySelector("#logs");
+  $logs.insertBefore($p, $logs.children[0]);
+
+  return logs[random(logs.length) - 1];
 }
 
 init();
