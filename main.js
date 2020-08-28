@@ -7,8 +7,10 @@ const $lowBtn = $getElById("btn-low-kick");
 
 const character = {
   name: "Pikachu",
-  defaultHP: 100,
-  damageHP: 100,
+  hp: {
+    current: 100,
+    total: 100,
+  },
   elHP: $getElById("health-character"),
   elProgressbar: $getElById("progressbar-character"),
   renderHP: renderHP,
@@ -19,8 +21,10 @@ const character = {
 
 const enemy = {
   name: "Charmander",
-  defaultHP: 100,
-  damageHP: 100,
+  hp: {
+    current: 100,
+    total: 100,
+  },
   elHP: $getElById("health-enemy"),
   elProgressbar: $getElById("progressbar-enemy"),
   renderHP: renderHP,
@@ -54,22 +58,24 @@ function renderHP() {
 }
 
 function renderHPLife() {
-  this.elHP.innerText = this.damageHP + " / " + this.defaultHP;
+  this.elHP.innerText = this.hp.current + " / " + this.hp.total;
 }
 
 function renderProgressbarHP() {
-  this.elProgressbar.style.width = this.damageHP + "%";
+  this.elProgressbar.style.width = this.hp.current + "%";
 }
 
 function changeHP(count) {
-  this.damageHP -= count;
+  this.hp.current -= count;
 
   const log =
-    this === enemy ? generateLog(this, character) : generateLog(this, enemy);
+    this === enemy
+      ? generateLog(this, character, count)
+      : generateLog(this, enemy, count);
   console.log(log);
 
-  if (this.damageHP <= 0) {
-    this.damageHP = 0;
+  if (this.hp.current <= 0) {
+    this.hp.current = 0;
     alert("Stupid " + this.name + " game over");
     $btn.disabled = true;
     $lowBtn.disabled = true;
@@ -83,11 +89,14 @@ function random(num) {
 }
 
 function params() {
-  const { defaultHP, damageHP } = character;
-  return `${damageHP}/${defaultHP}`;
+  const {
+    hp: { current, total },
+  } = character;
+
+  return `${current}/${total}`;
 }
 
-function generateLog(count) {
+function generateLog(current, total, count) {
   const { name } = character;
   const { name: eName } = enemy;
 
