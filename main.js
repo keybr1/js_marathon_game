@@ -29,12 +29,33 @@ const enemy = {
   renderProgressbarHP: renderProgressbarHP,
 };
 
-$btn.addEventListener("click", function () {
+function countClickFirst() {
+  let counter1 = 0;
+  return function () {
+    counter1++;
+    console.log(counter1);
+  };
+}
+
+function countClickSecond() {
+  let counter2 = 0;
+  return function () {
+    counter2++;
+    console.log(counter2);
+  };
+}
+
+const firstKick = countClickFirst();
+const secondKick = countClickSecond();
+
+$btn.addEventListener("click", () => {
   damage(20);
+  firstKick($btn);
 });
 
 $lowBtn.addEventListener("click", function () {
   damage(10);
+  secondKick($lowBtn);
 });
 
 function damage(num) {
