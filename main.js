@@ -29,11 +29,29 @@ const enemy = {
   renderProgressbarHP: renderProgressbarHP,
 };
 
-$btn.addEventListener("click", function () {
-  damage(20);
+function countClickFirst(counter = 5, el) {
+  const innerText = el.innerText;
+  el.innerText = `${innerText} (${counter})`;
+  return function () {
+    counter--;
+    if (counter === 0) {
+      el.disabled = true;
+    }
+    el.innerText = `${innerText} (${counter})`;
+    return counter;
+  };
+}
+
+const firstKick = countClickFirst(5, $btn);
+const secondKick = countClickFirst(7, $lowBtn);
+
+$btn.addEventListener("click", () => {
+  firstKick();
+  damage(20, 10);
 });
 
 $lowBtn.addEventListener("click", function () {
+  secondKick();
   damage(10);
 });
 
@@ -85,8 +103,9 @@ function changeHP(count) {
   this.renderHP();
 }
 
-function random(num) {
-  return Math.ceil(Math.random() * num);
+function random(max, min = 0) {
+  const num = max - min;
+  return Math.ceil(Math.random() * num) + min;
 }
 
 function generateLog(firstPerson, secondPerson, count) {
