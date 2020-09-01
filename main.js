@@ -29,33 +29,30 @@ const enemy = {
   renderProgressbarHP: renderProgressbarHP,
 };
 
-function countClickFirst() {
-  let counter1 = 0;
+function countClickFirst(counter = 5, el) {
+  const innerText = el.innerText;
+  el.innerText = `${innerText} (${counter})`;
   return function () {
-    counter1++;
-    console.log(counter1);
+    counter--;
+    if (counter === 0) {
+      el.disabled = true;
+    }
+    el.innerText = `${innerText} (${counter})`;
+    return counter;
   };
 }
 
-function countClickSecond() {
-  let counter2 = 0;
-  return function () {
-    counter2++;
-    console.log(counter2);
-  };
-}
-
-const firstKick = countClickFirst();
-const secondKick = countClickSecond();
+const firstKick = countClickFirst(5, $btn);
+const secondKick = countClickFirst(7, $lowBtn);
 
 $btn.addEventListener("click", () => {
-  damage(20);
-  firstKick($btn);
+  firstKick();
+  damage(20, 10);
 });
 
 $lowBtn.addEventListener("click", function () {
+  secondKick();
   damage(10);
-  secondKick($lowBtn);
 });
 
 function damage(num) {
@@ -106,8 +103,9 @@ function changeHP(count) {
   this.renderHP();
 }
 
-function random(num) {
-  return Math.ceil(Math.random() * num);
+function random(max, min = 0) {
+  const num = max - min;
+  return Math.ceil(Math.random() * num) + min;
 }
 
 function generateLog(firstPerson, secondPerson, count) {
