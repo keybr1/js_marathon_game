@@ -1,3 +1,11 @@
+import { pokemon, pokemon2 } from "./pokemon.js";
+import random from "./utils.js";
+import countClickFirst from "./count.js";
+import generateLog from "./generate.js";
+
+console.log(pokemon);
+console.log(pokemon2);
+
 function $getElById(id) {
   return document.getElementById(id);
 }
@@ -28,19 +36,6 @@ const enemy = {
   renderHPLife: renderHPLife,
   renderProgressbarHP: renderProgressbarHP,
 };
-
-function countClickFirst(counter = 5, el) {
-  const innerText = el.innerText;
-  el.innerText = `${innerText} (${counter})`;
-  return function () {
-    counter--;
-    if (counter === 0) {
-      el.disabled = true;
-    }
-    el.innerText = `${innerText} (${counter})`;
-    return counter;
-  };
-}
 
 const firstKick = countClickFirst(5, $btn);
 const secondKick = countClickFirst(7, $lowBtn);
@@ -101,54 +96,6 @@ function changeHP(count) {
   }
 
   this.renderHP();
-}
-
-function random(max, min = 0) {
-  const num = max - min;
-  return Math.ceil(Math.random() * num) + min;
-}
-
-function generateLog(firstPerson, secondPerson, count) {
-  function params() {
-    const { defaultHP, damageHP } = enemy;
-
-    return `${damageHP}/${defaultHP}`;
-  }
-
-  const logs = [
-    `${firstPerson.name} вспомнил что-то важное, но неожиданно ${
-      secondPerson.name
-    }, не помня себя от испуга, ударил в предплечье врага. -${count}, [${params()}]`,
-    `${firstPerson.name} поперхнулся, и за это ${
-      secondPerson.name
-    } с испугу приложил прямой удар коленом в лоб врага. -${count}, [${params()}]`,
-    `${firstPerson.name} забылся, но в это время наглый ${
-      secondPerson.name
-    }, приняв волевое решение, неслышно подойдя сзади, ударил. -${count}, [${params()}]`,
-    `${firstPerson.name} пришел в себя, но неожиданно ${
-      secondPerson.name
-    } случайно нанес мощнейший удар. -${count}, [${params()}]`,
-    `${firstPerson.name} поперхнулся, но в это время ${
-      secondPerson.name
-    } нехотя раздробил кулаком <вырезанно цензурой> противника. -${count}, [${params()}]`,
-    `${firstPerson.name} удивился, а ${
-      secondPerson.name
-    }  пошатнувшись влепил подлый удар. -${count}, [${params()}]`,
-    `${firstPerson.name} высморкался, но неожиданно ${
-      secondPerson.name
-    } провел дробящий удар. -${count}, [${params()}]`,
-    `${firstPerson.name} пошатнулся, и внезапно наглый ${
-      secondPerson.name
-    } беспричинно ударил в ногу противника -${count}, [${params()}]`,
-    `${firstPerson.name} расстроился, как вдруг, неожиданно ${
-      secondPerson.name
-    } случайно влепил стопой в живот соперника. -${count}, [${params()}]`,
-    `${firstPerson.name} пытался что-то сказать, но вдруг, неожиданно ${
-      secondPerson.name
-    } со скуки, разбил бровь сопернику. -${count}, [${params()}]`,
-  ];
-
-  return logs[random(logs.length) - 1];
 }
 
 init();
