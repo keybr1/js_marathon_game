@@ -1,10 +1,19 @@
-import { pokemon, pokemon2 } from "./pokemon.js";
+import Pokemon from "./pokemon.js";
 import random from "./utils.js";
 import countClickFirst from "./count.js";
 import generateLog from "./generate.js";
 
-console.log(pokemon);
-console.log(pokemon2);
+const player1 = new Pokemon({
+  name: "Pikachu",
+  damageHP: 400,
+  selectors: "character",
+});
+
+const player2 = new Pokemon({
+  name: "Charmander",
+  damageHP: 300,
+  selectors: "enemy",
+});
 
 function $getElById(id) {
   return document.getElementById(id);
@@ -12,30 +21,6 @@ function $getElById(id) {
 
 const $btn = $getElById("btn-kick");
 const $lowBtn = $getElById("btn-low-kick");
-
-const character = {
-  name: "Pikachu",
-  damageHP: 100,
-  defaultHP: 100,
-  elHP: $getElById("health-character"),
-  elProgressbar: $getElById("progressbar-character"),
-  renderHP: renderHP,
-  changeHP: changeHP,
-  renderHPLife: renderHPLife,
-  renderProgressbarHP: renderProgressbarHP,
-};
-
-const enemy = {
-  name: "Charmander",
-  damageHP: 100,
-  defaultHP: 100,
-  elHP: $getElById("health-enemy"),
-  elProgressbar: $getElById("progressbar-enemy"),
-  renderHP: renderHP,
-  changeHP: changeHP,
-  renderHPLife: renderHPLife,
-  renderProgressbarHP: renderProgressbarHP,
-};
 
 const firstKick = countClickFirst(5, $btn);
 const secondKick = countClickFirst(7, $lowBtn);
@@ -51,27 +36,13 @@ $lowBtn.addEventListener("click", function () {
 });
 
 function damage(num) {
-  character.changeHP(random(num));
-  enemy.changeHP(random(num));
-}
-
-function init() {
-  console.log("Start Game!");
-  character.renderHP();
-  enemy.renderHP();
-}
-
-function renderHP() {
-  this.renderHPLife();
-  this.renderProgressbarHP();
-}
-
-function renderHPLife() {
-  this.elHP.innerText = this.damageHP + " / " + this.defaultHP;
-}
-
-function renderProgressbarHP() {
-  this.elProgressbar.style.width = this.damageHP + "%";
+  player1.changeHP(random(num), function (count) {
+    console.log("some HP", count);
+    console.log(generateLog(player1, player2, count));
+  }),
+    player2.changeHP(random(num), function (count) {
+      console.log("some HP", count);
+    });
 }
 
 function changeHP(count) {
@@ -83,19 +54,12 @@ function changeHP(count) {
       : generateLog(this, enemy, count);
   console.log(log);
 
-  const $p = document.createElement("p");
-  const $logs = document.querySelector("#logs");
-  $p.innerText = `${log}`;
-  $logs.insertBefore($p, $logs.children[0]);
-
   if (this.damageHP <= 0) {
     this.damageHP = 0;
-    alert("Stupid " + this.name + " game over");
+    console.log("Stupid " + this.name + " lose!");
     $btn.disabled = true;
     $lowBtn.disabled = true;
   }
 
   this.renderHP();
 }
-
-init();
