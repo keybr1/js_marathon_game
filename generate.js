@@ -1,5 +1,3 @@
-import random from "./utils.js";
-
 function generateLog(firstPerson, secondPerson, count) {
   function params() {
     const { damageHP } = firstPerson;
@@ -40,6 +38,10 @@ function generateLog(firstPerson, secondPerson, count) {
     } со скуки, разбил бровь сопернику. -${count}, [${params()}]`,
   ];
 
+  function random(max, min = 0) {
+    const num = max - min;
+    return Math.ceil(Math.random() * num) + min;
+  }
   return logs[random(logs.length) - 1];
 }
 

@@ -1,7 +1,5 @@
 import Pokemon from "./pokemon.js";
-import random from "./utils.js";
-import countClickFirst from "./count.js";
-import generateLog from "./generate.js";
+import { random, countClickFirst, generateLog } from "./utils.js";
 
 const player1 = new Pokemon({
   name: "Pikachu",
