@@ -6,12 +6,14 @@ import generateLog from "./generate.js";
 const player1 = new Pokemon({
   name: "Pikachu",
   damageHP: 400,
+  defaultHP: 400,
   selectors: "character",
 });
 
 const player2 = new Pokemon({
   name: "Charmander",
   damageHP: 300,
+  defaultHP: 300,
   selectors: "enemy",
 });
 
@@ -43,23 +45,4 @@ function damage(num) {
     player2.changeHP(random(num), function (count) {
       console.log("some HP", count);
     });
-}
-
-function changeHP(count) {
-  this.damageHP -= count;
-
-  const log =
-    this === enemy
-      ? generateLog(this, character, count)
-      : generateLog(this, enemy, count);
-  console.log(log);
-
-  if (this.damageHP <= 0) {
-    this.damageHP = 0;
-    console.log("Stupid " + this.name + " lose!");
-    $btn.disabled = true;
-    $lowBtn.disabled = true;
-  }
-
-  this.renderHP();
 }
