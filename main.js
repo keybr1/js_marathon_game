@@ -8,13 +8,12 @@ import {
 } from "./utils.js";
 import { pokemons } from "./pokemons.js";
 
-const pikachu = pokemons.find((item) => item.name === "Pikachu");
-const randomPlayer = Math.floor(Math.random() * pokemons.length + 1);
+const randomPlayer = random(pokemons.length - 1);
 // const $elImg = document.getElementById("img-player1");
 // $elImg.src = pokemons[0].img;
 
 const player1 = new Pokemon({
-  ...pikachu,
+  ...pokemons[randomPlayer],
   selectors: "player1",
 });
 
