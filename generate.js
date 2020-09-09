@@ -1,3 +1,5 @@
+const random = (num) => Math.ceil(Math.random() * num);
+
 function generateLog(firstPerson, secondPerson, count) {
   function params() {
     const { damageHP } = firstPerson;
@@ -37,12 +39,6 @@ function generateLog(firstPerson, secondPerson, count) {
       secondPerson.name
     } со скуки, разбил бровь сопернику. -${count}, [${params()}]`,
   ];
-
-  function random(max, min = 0) {
-    const num = max - min;
-    return Math.ceil(Math.random() * num) + min;
-  }
-  return logs[random(logs.length) - 1];
 }
 
 export default generateLog;

@@ -3,6 +3,7 @@ class Selectors {
     this.elHP = document.getElementById(`health-${name}`);
     this.elProgressbar = document.getElementById(`progressbar-${name}`);
     this.pokiName = document.getElementById(`name-${name}`);
+    this.pokiImg = document.getElementById(`img-${name}`);
   }
 }
 
@@ -17,10 +18,15 @@ class Pokemon extends Selectors {
 
     this.renderHP();
     this.changeName();
+    this.changeImg();
   }
 
   changeName = () => {
     this.pokiName.innerText = this.name;
+  };
+
+  changeImg = () => {
+    this.pokiImg.img = this.img;
   };
 
   changeHP = (count, cb) => {

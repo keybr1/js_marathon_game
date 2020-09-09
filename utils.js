@@ -6,4 +6,14 @@ function random(max, min = 0) {
   return Math.ceil(Math.random() * num) + min;
 }
 
-export { generateLog, countClickFirst, random };
+function player1Kick(player1, player2, count) {
+  let log = generateLog(player1, player2, count);
+  $log(log);
+}
+
+function player2Kick(player1, player2, count) {
+  let log = generateLog(player2, player1, count);
+  $log(log);
+}
+
+export { generateLog, countClickFirst, random, player1Kick, player2Kick };
