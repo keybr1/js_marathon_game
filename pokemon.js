@@ -8,17 +8,13 @@ class Selectors {
 }
 
 class Pokemon extends Selectors {
-  constructor({ name, damageHP, defaultHP, selectors, attacks = [] }) {
+  constructor({ id, name, damageHP, defaultHP, selectors, img, attacks = [] }) {
     super(selectors);
 
-    this.name = name;
-    this.damageHP = damageHP;
-    this.defaultHP = defaultHP;
-    this.attacks = attacks;
-
-    this.renderHP();
-    this.changeName();
-    this.changeImg();
+    renderHP();
+    changeHP();
+    changeName();
+    changeImg();
   }
 
   changeName = () => {
@@ -53,4 +49,13 @@ class Pokemon extends Selectors {
   };
 }
 
-export default Pokemon;
+function getPokemon(selector, pokemons) {
+  const pokemon = pokemons.splice(random(0, pokemons.length, 1)[0]);
+
+  return new Pokemon({
+    ...pokemon,
+    selectors: selector,
+  });
+}
+
+export { getPokemon };
